@@ -7,9 +7,14 @@ public class CabInvoiceService {
 
     public Double calculateFare(double distance, int time) {
         double totalFare = (distance * PER_KILOMETER_COST) + (time * PER_MINUTE_COST);
-        if (totalFare < MAXUMUM_FARE) {
-            return MAXUMUM_FARE;
+        return Math.max(totalFare, MAXUMUM_FARE);
+    }
+
+    public double calculateFareForMultipleRides(Ride[] rides) {
+        double aggregateFare = 0;
+        for (Ride ride : rides) {
+            aggregateFare += calculateFare(ride.distance, ride.time);
         }
-        return totalFare;
+        return aggregateFare;
     }
 }
